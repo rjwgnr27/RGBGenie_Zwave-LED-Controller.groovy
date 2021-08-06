@@ -581,7 +581,6 @@ void setColorTemperature(temp) {
 }
 
 void setColorTemperature(temp, level) {
-    if(logEnable) log.debug "setColorTemperature($temp, $level)"
     setColorTemperature(temp)
     if (level != null)
         setLevel(level)

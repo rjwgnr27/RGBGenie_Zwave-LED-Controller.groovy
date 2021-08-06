@@ -546,8 +546,8 @@ void setColorTemperature(temp) {
             state.ctTarget=temp
             warmValue = (((cwKelvin?cwKelvin.toInteger():COLOR_TEMP_MAX) - temp) / COLOR_TEMP_DIFF * 255) as Integer
             coldValue = 255 - warmValue
-            log.debug "temp: $temp - warm: $warmValue - cold: $coldValue ctDiff: $COLOR_TEMP_DIFF"
-            cmds.add(zwave.switchColorV3.switchColorSet(warmWhite: warmValue, coldWhite: coldValue, dimmingDuration: duration))
+            if(logEnable) log.debug "temp: $temp - warm: $warmValue - cold: $coldValue ctDiff: $COLOR_TEMP_DIFF"
+                cmds.add(zwave.switchColorV3.switchColorSet(warmWhite: warmValue, coldWhite: coldValue, dimmingDuration: duration))
             break
         case "2":
             // RGBW Device type
@@ -578,6 +578,13 @@ void setColorTemperature(temp) {
     eventProcess(name: "colorMode", value: "CT")
     log.debug(cmds)
     sendToDevice(cmds)
+}
+
+void setColorTemperature(temp, level) {
+    if(logEnable) log.debug "setColorTemperature($temp, $level)"
+    setColorTemperature(temp)
+    if (level != null)
+        setLevel(level)
 }
 
 private List<hubitat.zwave.Command> queryAllColors() {

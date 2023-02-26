@@ -576,7 +576,7 @@ void setColorTemperature(temp) {
     }
     cmds.addAll(queryAllColors())
     eventProcess(name: "colorMode", value: "CT")
-    log.debug(cmds)
+    if (logEnable) log.debug(cmds)
     sendToDevice(cmds)
 }
 
